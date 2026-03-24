@@ -2,7 +2,7 @@
   {
     "id": "livetv-player",
     "name": "Livetv Player",
-    "version": "58a52d7",
+    "version": "7846774",
     "description": "Android app",
     "iconUrl": "icons/livetv-player.png",
     "iconBg": "",
@@ -10,12 +10,12 @@
     "platforms": [
       "android"
     ],
-    "downloadUrl": "https://github.com/abster07/Abstra-Play/releases/download/build-61/livetv-player.apk",
+    "downloadUrl": "https://github.com/abster07/Abstra-Play/releases/download/build-62/livetv-player.apk",
     "apkSize": "31M",
     "downloads": 3,
     "stars": 0,
     "updated": "2026-03-24",
-    "commit": "58a52d7"
+    "commit": "7846774"
   },
   {
     "id": "notifyvault",
