@@ -1,21 +1,27 @@
 [
   {
     "id": "livetv-player",
-    "name": "Livetv Player",
-    "version": "7846774",
-    "description": "Android app",
+    "name": "Live TV Player",
+    "version": "1.1.24-03",
+    "description": "Stream live TV channels, IPTV playlists (M3U/M3U8), and RTSP feeds directly on your Android device or TV. Includes a built-in EPG guide, channel favourites, and picture-in-picture support.",
     "iconUrl": "icons/livetv-player.png",
-    "iconBg": "",
-    "tags": [],
+    "iconBg": "linear-gradient(135deg,#1a0533,#6d28d9)",
+    "tags": [
+      "tv",
+      "iptv",
+      "streaming",
+      "android",
+      "media"
+    ],
     "platforms": [
       "android"
     ],
-    "downloadUrl": "https://github.com/abster07/Abstra-Play/releases/download/build-62/livetv-player.apk",
+    "downloadUrl": "https://github.com/abster07/Abstra-Play/releases/download/build-64/livetv-player.apk",
     "apkSize": "31M",
     "downloads": 3,
     "stars": 0,
     "updated": "2026-03-24",
-    "commit": "7846774"
+    "commit": "f0c433d"
   },
   {
     "id": "notifyvault",
