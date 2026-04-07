@@ -16,12 +16,12 @@
     "platforms": [
       "android"
     ],
-    "downloadUrl": "https://github.com/abster07/Abstra-Play/releases/download/build-98/livetv-player.apk",
+    "downloadUrl": "https://github.com/abster07/Abstra-Play/releases/download/build-99/livetv-player.apk",
     "apkSize": "31M",
-    "downloads": 18,
+    "downloads": 20,
     "stars": 0,
     "updated": "2026-04-07",
-    "commit": "16ec8fd"
+    "commit": "0a17bb2"
   },
   {
     "id": "notifyvault",
