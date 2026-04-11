@@ -71,5 +71,30 @@
     "stars": 0,
     "updated": "2026-03-28",
     "commit": "dfc7d47"
+  },
+  {
+    "id": "stream-vault",
+    "name": "Stream Vault",
+    "version": "1.0",
+    "description": "Stream live TV channels, IPTV playlists (M3U/M3U8), and RTSP feeds directly on your Android device or Android TV. Includes a built-in EPG guide, channel favourites, and picture-in-picture support, optimized for big-screen viewing.",
+    "iconUrl": "icons/stream-vault.png",
+    "iconBg": "linear-gradient(135deg,#1a0533,#6d28d9)",
+    "tags": [
+      "tv",
+      "iptv",
+      "streaming",
+      "android",
+      "android-tv",
+      "media"
+    ],
+    "platforms": [
+      "android",
+      "android-tv"
+    ],
+    "downloadUrl": "https://github.com/abster07/SSTV/releases/download/stream-vault-v1-20/stream-vault.apk",
+    "downloads": 0,
+    "stars": 0,
+    "updated": "2026-04-11",
+    "commit": "475b7bd"
   }
 ]
