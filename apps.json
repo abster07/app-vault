@@ -91,10 +91,10 @@
       "android",
       "android-tv"
     ],
-    "downloadUrl": "https://github.com/abster07/SSTV/releases/download/stream-vault-v1-20/stream-vault.apk",
-    "downloads": 0,
+    "downloadUrl": "https://github.com/abster07/SSTV/releases/download/stream-vault-v1-31/stream-vault.apk",
+    "downloads": 1,
     "stars": 0,
-    "updated": "2026-04-11",
-    "commit": "475b7bd"
+    "updated": "2026-04-12",
+    "commit": "9be0a3b"
   }
 ]
