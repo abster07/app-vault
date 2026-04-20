@@ -96,5 +96,29 @@
     "stars": 0,
     "updated": "2026-04-13",
     "commit": "88fea46"
+  },
+  {
+    "id": "share-manage",
+    "name": "Share Manage",
+    "version": "1.0.0",
+    "description": "Manage your multiple accoints in the meroshare app wity some easy addition and chevk ipo results in single clixk remove ebery hassle of logging in and everything. Every data of yours is encrypted in our app and this app works locally and contacts directly to cdsc server to ensure safety.",
+    "iconUrl": "icons/share-manage.png",
+    "iconBg": "linear-gradient(135deg,#1a0533,#6d28d9)",
+    "tags": [
+      "share",
+      "market",
+      "ipo",
+      "accounts",
+      "management",
+      "daily"
+    ],
+    "platforms": [
+      "android"
+    ],
+    "downloadUrl": "https://github.com/abster07/share-manager/releases/download/stream-vault-v1-5/share-manage.apk",
+    "downloads": 1,
+    "stars": 0,
+    "updated": "2026-04-20",
+    "commit": "f86024f"
   }
 ]
