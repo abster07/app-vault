@@ -597,33 +597,7 @@
   <span>© <span id="yr"></span> AppVault</span>
 </footer>
 
-<!-- TV / sideload modal -->
-<div id="tv-modal-overlay">
-  <div class="tv-modal">
-    <h3>📺 Install on Android TV</h3>
-    <p style="font-size:0.82rem;color:var(--text2)">Android TV doesn't support direct browser downloads. Use one of these methods:</p>
-    <div class="steps">
-      <div class="step">
-        <span class="step-n">1</span>
-        <span class="step-text"><strong>Easiest:</strong> Install <strong>Downloader</strong> app from the Play Store on your TV, then enter the APK URL manually.</span>
-      </div>
-      <div class="step">
-        <span class="step-n">2</span>
-        <span class="step-text"><strong>ADB:</strong> Enable Developer Options on TV, then run <code style="background:var(--surface);padding:1px 5px;border-radius:4px;font-size:0.78rem">adb install &lt;apk-file&gt;</code> from your computer.</span>
-      </div>
-      <div class="step">
-        <span class="step-n">3</span>
-        <span class="step-text"><strong>Scan QR:</strong> Scan with your phone to download the APK, transfer to TV via USB or network share.</span>
-      </div>
-    </div>
-    <div id="modal-apk-url" style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--accent);background:var(--surface3);border-radius:8px;padding:8px 12px;word-break:break-all;margin-bottom:0.5rem;"></div>
-    <div id="qr-container"></div>
-    <div class="modal-footer">
-      <button class="btn-ghost" onclick="closeModal()">Close</button>
-      <button class="btn-primary" onclick="copyModalUrl()">Copy URL</button>
-    </div>
-  </div>
-</div>
+
 
 <script>
 /* ══════════════════ CONFIG ══════════════════ */
@@ -732,14 +706,23 @@ function renderCard(app, delay = 0) {
     : `<div class="app-icon-placeholder" style="background:${app.iconBg||'var(--surface2)'}">📦</div>`;
 
   // Download button logic
+  // On Android TV, the browser can't trigger file downloads via the `download` attribute.
+  // The fix: navigate directly to the APK URL (window.location.href). The browser/OS
+  // handles it as a file download — same as if the user typed the URL in the address bar.
   let dlBtn = '';
   if (!app.downloadUrl || app.downloadUrl === '#') {
     dlBtn = `<span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--muted);padding:7px 10px">No download</span>`;
   } else if (isTV) {
-    dlBtn = `<button class="dl-btn tv-dl" onclick="openTvModal('${app.downloadUrl}','${app.name}')">
-      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg>
-      Install Guide
-    </button>`;
+    // Use onclick navigate — avoids the browser blocking blob/download on TV WebKit
+    const safeUrl = app.downloadUrl.replace(/'/g, "\\'");
+    dlBtn = `<a class="dl-btn tv-dl" href="${app.downloadUrl}" onclick="tvDownload(event,'${safeUrl}')">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+      Download APK
+    </a>`;
   } else {
     dlBtn = `<a class="dl-btn" href="${app.downloadUrl}" download target="_blank" rel="noopener">
       <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
@@ -898,31 +881,15 @@ document.getElementById('search').addEventListener('input', e=>{
   refreshView();
 });
 
-/* ══════════════════ TV MODAL ══════════════════ */
-let _modalUrl = '';
-function openTvModal(url, name) {
-  _modalUrl = url;
-  document.getElementById('modal-apk-url').textContent = url;
-  document.getElementById('tv-modal-overlay').classList.add('open');
-  // Simple QR using a free API
-  const qrDiv = document.getElementById('qr-container');
-  const encoded = encodeURIComponent(url);
-  qrDiv.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?data=${encoded}&size=140x140&color=00e5ff&bgcolor=14141f" alt="QR" style="border-radius:10px;border:1px solid rgba(0,229,255,0.2)" onerror="this.style.display='none'">`;
+/* ══════════════════ TV DOWNLOAD ══════════════════ */
+// Android TV browsers block the `download` attribute and blob URLs.
+// Direct navigation to the APK URL is the only reliable way to trigger
+// a download from a TV browser without a separate app like Downloader.
+function tvDownload(e, url) {
+  e.preventDefault();
+  // Try opening in the same tab — TV browser will download or prompt
+  window.location.href = url;
 }
-function closeModal() {
-  document.getElementById('tv-modal-overlay').classList.remove('open');
-}
-function copyModalUrl() {
-  navigator.clipboard.writeText(_modalUrl).then(()=>{
-    const btn = document.querySelector('.btn-primary');
-    const orig = btn.textContent;
-    btn.textContent = '✓ Copied!';
-    setTimeout(()=>btn.textContent=orig, 1800);
-  });
-}
-document.getElementById('tv-modal-overlay').addEventListener('click', e=>{
-  if (e.target === document.getElementById('tv-modal-overlay')) closeModal();
-});
 
 /* ══════════════════ LOAD ══════════════════ */
 document.getElementById('yr').textContent = new Date().getFullYear();
