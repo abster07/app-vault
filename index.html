@@ -5,230 +5,249 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AppVault — My Apps</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0a0a0f;
-      --surface: #111118;
-      --surface2: #18181f;
-      --border: rgba(255,255,255,0.07);
-      --accent: #6ee7f7;
-      --accent2: #a78bfa;
-      --accent3: #f472b6;
-      --text: #e8e8f0;
-      --muted: #6b6b80;
-      --card-hover: rgba(110,231,247,0.04);
-      --r: 14px;
+      --bg: #07070d;
+      --surface: #0e0e18;
+      --surface2: #14141f;
+      --surface3: #1a1a28;
+      --border: rgba(255,255,255,0.06);
+      --border2: rgba(255,255,255,0.12);
+      --accent: #00e5ff;
+      --accent2: #b388ff;
+      --accent3: #69ff47;
+      --warn: #ffd740;
+      --danger: #ff6b6b;
+      --text: #eeeef5;
+      --text2: #a0a0b8;
+      --muted: #52526a;
+      --r: 16px;
+      --r-sm: 10px;
     }
 
     html { scroll-behavior: smooth; }
-
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'Syne', sans-serif;
+      font-family: 'Space Grotesk', sans-serif;
       min-height: 100vh;
       overflow-x: hidden;
     }
 
-    /* Grid noise overlay */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image:
-        radial-gradient(ellipse 80% 60% at 20% -10%, rgba(110,231,247,0.07) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 50% at 80% 110%, rgba(167,139,250,0.07) 0%, transparent 60%);
-      pointer-events: none;
-      z-index: 0;
+    /* Ambient background */
+    .bg-fx {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 15% 0%, rgba(0,229,255,0.06) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 40% at 85% 100%, rgba(179,136,255,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 30% at 50% 50%, rgba(105,255,71,0.03) 0%, transparent 70%);
+    }
+
+    /* ─── Device Banner ─── */
+    #device-banner {
+      position: relative; z-index: 10;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px clamp(1.5rem, 5vw, 4rem);
+      background: rgba(0,229,255,0.06);
+      border-bottom: 1px solid rgba(0,229,255,0.15);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--accent);
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .device-info { display: flex; align-items: center; gap: 8px; }
+    .device-icon { font-size: 1rem; }
+    .device-label { color: var(--text2); }
+    .device-label strong { color: var(--accent); }
+    .compat-note {
+      background: rgba(0,229,255,0.1);
+      border: 1px solid rgba(0,229,255,0.2);
+      border-radius: 6px;
+      padding: 3px 10px;
+      font-size: 0.68rem;
     }
 
     /* ─── Header ─── */
     header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
       padding: 0 clamp(1.5rem, 5vw, 4rem);
-      height: 64px;
-      background: rgba(10,10,15,0.85);
-      backdrop-filter: blur(16px);
+      height: 60px;
+      background: rgba(7,7,13,0.9);
+      backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
     }
-
     .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 1.1rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
+      display: flex; align-items: center; gap: 10px;
+      font-size: 1.05rem; font-weight: 700; letter-spacing: -0.02em;
     }
-    .logo-icon {
-      width: 32px; height: 32px;
+    .logo-mark {
+      width: 30px; height: 30px;
       background: linear-gradient(135deg, var(--accent), var(--accent2));
       border-radius: 8px;
-      display: grid;
-      place-items: center;
-      font-size: 16px;
+      display: grid; place-items: center;
+      font-size: 14px;
     }
     .logo span { color: var(--accent); }
+    .header-right { display: flex; align-items: center; gap: 0.75rem; }
 
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .search-wrap {
-      position: relative;
-    }
+    .search-wrap { position: relative; }
     .search-wrap svg {
-      position: absolute;
-      left: 12px; top: 50%;
-      transform: translateY(-50%);
-      color: var(--muted);
-      pointer-events: none;
+      position: absolute; left: 11px; top: 50%;
+      transform: translateY(-50%); color: var(--muted); pointer-events: none;
     }
     #search {
       background: var(--surface2);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 8px 14px 8px 36px;
+      border-radius: var(--r-sm);
+      padding: 8px 14px 8px 34px;
       color: var(--text);
-      font-family: 'DM Mono', monospace;
-      font-size: 0.8rem;
-      width: 220px;
-      outline: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      width: 200px; outline: none;
       transition: border-color 0.2s, width 0.3s;
     }
-    #search:focus {
-      border-color: var(--accent);
-      width: 280px;
-    }
+    #search:focus { border-color: var(--accent); width: 260px; }
     #search::placeholder { color: var(--muted); }
+
+    /* TV mode overrides */
+    body.tv-mode header { height: 72px; }
+    body.tv-mode #search { font-size: 1rem; padding: 10px 16px 10px 40px; }
+    body.tv-mode .logo { font-size: 1.3rem; }
 
     /* ─── Hero ─── */
     .hero {
-      position: relative;
-      z-index: 1;
-      padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem) clamp(2rem, 5vw, 3.5rem);
-      max-width: 700px;
+      position: relative; z-index: 1;
+      padding: clamp(2.5rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem) clamp(1.5rem, 4vw, 2.5rem);
     }
-
-    .hero-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem; letter-spacing: 0.08em;
       color: var(--accent);
-      background: rgba(110,231,247,0.08);
-      border: 1px solid rgba(110,231,247,0.2);
-      border-radius: 99px;
-      padding: 4px 12px;
-      margin-bottom: 1.5rem;
-      letter-spacing: 0.05em;
+      background: rgba(0,229,255,0.07);
+      border: 1px solid rgba(0,229,255,0.18);
+      border-radius: 99px; padding: 4px 12px;
+      margin-bottom: 1.25rem;
     }
-    .hero-tag::before {
-      content: '●';
-      animation: blink 1.6s infinite;
-      font-size: 8px;
+    .live-dot {
+      width: 6px; height: 6px;
+      background: var(--accent3);
+      border-radius: 50%;
+      animation: pulse-dot 2s infinite;
     }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
-
+    @keyframes pulse-dot {
+      0%,100%{opacity:1;transform:scale(1)}
+      50%{opacity:0.4;transform:scale(0.7)}
+    }
     h1 {
-      font-size: clamp(2.4rem, 6vw, 4rem);
-      font-weight: 800;
-      line-height: 1.08;
+      font-size: clamp(2rem, 5.5vw, 3.8rem);
+      font-weight: 700;
+      line-height: 1.1;
       letter-spacing: -0.03em;
-      margin-bottom: 1rem;
+      margin-bottom: 0.9rem;
     }
-    h1 em {
-      font-style: normal;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+    h1 .grad {
+      background: linear-gradient(100deg, var(--accent) 0%, var(--accent2) 60%, var(--accent3) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-    .hero p {
+    .hero-sub {
+      color: var(--text2); font-size: 0.95rem; line-height: 1.7;
+      max-width: 500px;
+    }
+
+    /* ─── Stats strip ─── */
+    .stats-strip {
+      position: relative; z-index: 1;
+      display: flex; gap: 1.5rem;
+      padding: 0 clamp(1.5rem, 5vw, 4rem) 2rem;
+      flex-wrap: wrap;
+    }
+    .stat-pill {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 6px 14px;
+      font-size: 0.78rem; font-weight: 600;
+    }
+    .stat-pill .n { color: var(--accent); font-family: 'JetBrains Mono', monospace; }
+    .stat-pill .l { color: var(--text2); font-size: 0.7rem; font-weight: 400; }
+
+    /* ─── Section Layout ─── */
+    .content-area {
+      position: relative; z-index: 1;
+      padding: 0 clamp(1.5rem, 5vw, 4rem) 5rem;
+      display: flex; flex-direction: column; gap: 3rem;
+    }
+
+    .section-heading {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 1.25rem;
+    }
+    .section-heading-icon {
+      width: 28px; height: 28px;
+      border-radius: 7px;
+      display: grid; place-items: center;
+      font-size: 14px;
+    }
+    .section-heading h2 {
+      font-size: 1rem; font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .section-heading .badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
       color: var(--muted);
-      font-size: 1rem;
-      line-height: 1.7;
-      max-width: 480px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 2px 9px;
+      margin-left: auto;
     }
 
     /* ─── Filter Bar ─── */
-    .filter-bar {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0 clamp(1.5rem, 5vw, 4rem);
-      margin-bottom: 2rem;
+    .filter-row {
+      position: relative; z-index: 1;
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0 clamp(1.5rem, 5vw, 4rem) 1.5rem;
       flex-wrap: wrap;
     }
     .filter-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      color: var(--muted);
-      margin-right: 0.5rem;
-      letter-spacing: 0.05em;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem; color: var(--muted);
+      letter-spacing: 0.07em; margin-right: 0.25rem;
     }
     .filter-btn {
       background: var(--surface2);
       border: 1px solid var(--border);
-      color: var(--muted);
+      color: var(--text2);
       border-radius: 99px;
-      padding: 5px 14px;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
+      padding: 5px 13px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
       cursor: pointer;
-      transition: all 0.18s;
-      letter-spacing: 0.03em;
+      transition: all 0.15s;
     }
     .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
     .filter-btn.active {
-      background: rgba(110,231,247,0.1);
+      background: rgba(0,229,255,0.1);
       border-color: var(--accent);
       color: var(--accent);
     }
 
-    /* ─── Grid ─── */
-    .grid-section {
-      position: relative;
-      z-index: 1;
-      padding: 0 clamp(1.5rem, 5vw, 4rem) 5rem;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      margin-bottom: 1.5rem;
-    }
-    .section-title {
-      font-size: 0.8rem;
-      font-family: 'DM Mono', monospace;
-      color: var(--muted);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-    #app-count {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      color: var(--muted);
-    }
-
-    #app-grid {
+    /* ─── App Grid ─── */
+    .app-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.25rem;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1.1rem;
+    }
+    .app-grid.featured {
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     }
 
     /* ─── App Card ─── */
@@ -236,235 +255,314 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--r);
-      padding: 1.5rem;
-      cursor: pointer;
-      transition: transform 0.22s cubic-bezier(.22,1,.36,1), border-color 0.2s, box-shadow 0.2s, background 0.2s;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      position: relative;
-      overflow: hidden;
-      animation: fadeUp 0.4s both;
+      padding: 1.35rem;
+      display: flex; flex-direction: column; gap: 0;
+      position: relative; overflow: hidden;
+      transition: transform 0.2s cubic-bezier(.22,1,.36,1), border-color 0.2s, box-shadow 0.2s;
+      animation: fadeUp 0.35s both;
     }
     @keyframes fadeUp {
-      from { opacity:0; transform: translateY(20px); }
-      to   { opacity:1; transform: translateY(0); }
+      from { opacity:0; transform:translateY(18px) }
+      to   { opacity:1; transform:translateY(0) }
     }
     .app-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(110,231,247,0.25);
-      box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 0 1px rgba(110,231,247,0.08);
-      background: var(--card-hover);
+      transform: translateY(-5px);
+      border-color: rgba(0,229,255,0.22);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.55), 0 0 0 1px rgba(0,229,255,0.07);
     }
-    .app-card::before {
+    .app-card.top-pick {
+      border-color: rgba(0,229,255,0.2);
+      background: linear-gradient(145deg, rgba(0,229,255,0.04), var(--surface) 40%);
+    }
+    .app-card.top-pick::after {
+      content: '★ TOP PICK';
+      position: absolute; top: 12px; right: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.58rem; letter-spacing: 0.08em;
+      color: var(--warn); background: rgba(255,215,64,0.1);
+      border: 1px solid rgba(255,215,64,0.25);
+      border-radius: 4px; padding: 2px 7px;
+    }
+    .app-card.device-match {
+      border-color: rgba(105,255,71,0.2);
+    }
+    .app-card.device-match::before {
       content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(110,231,247,0.05), transparent);
-      opacity: 0;
-      transition: opacity 0.3s;
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 40% at 50% -5%, rgba(105,255,71,0.04), transparent);
       pointer-events: none;
     }
-    .app-card:hover::before { opacity: 1; }
 
     .card-top {
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
-      margin-bottom: 1rem;
+      display: flex; align-items: flex-start; gap: 0.9rem;
+      margin-bottom: 0.85rem;
     }
     .app-icon {
-      width: 52px; height: 52px;
+      width: 50px; height: 50px;
       border-radius: 12px;
-      display: grid;
-      place-items: center;
-      font-size: 24px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid var(--border);
+    }
+    .app-icon-placeholder {
+      width: 50px; height: 50px;
+      border-radius: 12px;
+      display: grid; place-items: center;
+      font-size: 22px;
       flex-shrink: 0;
       border: 1px solid var(--border);
     }
     .app-meta { flex: 1; min-width: 0; }
     .app-name {
-      font-size: 1rem;
-      font-weight: 700;
+      font-size: 0.97rem; font-weight: 700;
       letter-spacing: -0.01em;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
     .app-version {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--muted);
-      margin-top: 2px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.67rem; color: var(--muted); margin-top: 3px;
     }
+    .platform-pills {
+      display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px;
+    }
+    .plat {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem; padding: 2px 6px;
+      border-radius: 4px; letter-spacing: 0.03em;
+    }
+    .plat-android { background:rgba(105,255,71,0.1); color:#69ff47; border:1px solid rgba(105,255,71,0.2); }
+    .plat-android-tv { background:rgba(0,229,255,0.1); color:#00e5ff; border:1px solid rgba(0,229,255,0.25); }
+    .plat-windows { background:rgba(0,120,215,0.15); color:#60b4ff; border:1px solid rgba(0,120,215,0.25); }
+    .plat-macos   { background:rgba(255,255,255,0.07); color:#c8d0e0; border:1px solid rgba(255,255,255,0.1); }
+    .plat-linux   { background:rgba(255,200,50,0.1); color:#ffd740; border:1px solid rgba(255,200,50,0.2); }
+    .plat-web     { background:rgba(179,136,255,0.1); color:#b388ff; border:1px solid rgba(179,136,255,0.2); }
 
     .app-desc {
-      font-size: 0.85rem;
-      color: var(--muted);
-      line-height: 1.6;
-      flex: 1;
-      margin-bottom: 1.25rem;
+      font-size: 0.82rem; color: var(--text2);
+      line-height: 1.6; margin-bottom: 1rem;
       display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
     }
-
     .card-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 1.25rem;
+      display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 1rem;
     }
     .tag {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.66rem;
-      padding: 3px 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem; padding: 2px 7px;
       border-radius: 4px;
       background: rgba(255,255,255,0.04);
       border: 1px solid var(--border);
       color: var(--muted);
-      letter-spacing: 0.03em;
     }
-
     .card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.75rem;
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 0.6rem;
+      margin-top: auto;
     }
-    .app-stats {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
+    .card-meta {
+      display: flex; align-items: center; gap: 0.75rem;
     }
-    .stat {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--muted);
+    .meta-item {
+      display: flex; align-items: center; gap: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.67rem; color: var(--muted);
     }
-    .stat svg { opacity: 0.5; }
 
+    /* Download button - enhanced with size info */
+    .dl-wrap { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
     .dl-btn {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: linear-gradient(135deg, rgba(110,231,247,0.15), rgba(167,139,250,0.1));
-      border: 1px solid rgba(110,231,247,0.3);
+      display: flex; align-items: center; gap: 6px;
+      background: linear-gradient(135deg, rgba(0,229,255,0.14), rgba(179,136,255,0.09));
+      border: 1px solid rgba(0,229,255,0.28);
       color: var(--accent);
-      border-radius: 8px;
-      padding: 7px 14px;
-      font-family: 'Syne', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 600;
+      border-radius: var(--r-sm);
+      padding: 8px 15px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.78rem; font-weight: 600;
       cursor: pointer;
-      transition: all 0.18s;
       text-decoration: none;
+      transition: all 0.17s;
       white-space: nowrap;
+      position: relative;
     }
     .dl-btn:hover {
-      background: linear-gradient(135deg, rgba(110,231,247,0.25), rgba(167,139,250,0.18));
+      background: linear-gradient(135deg, rgba(0,229,255,0.24), rgba(179,136,255,0.16));
       border-color: var(--accent);
-      box-shadow: 0 0 16px rgba(110,231,247,0.15);
+      box-shadow: 0 0 18px rgba(0,229,255,0.18);
+      transform: scale(1.02);
     }
     .dl-btn:active { transform: scale(0.97); }
-
-    /* ─── Platform badges ─── */
-    .platform-badge {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.62rem;
-      padding: 2px 7px;
-      border-radius: 4px;
-      letter-spacing: 0.04em;
+    .dl-btn.tv-dl {
+      background: linear-gradient(135deg, rgba(0,229,255,0.18), rgba(105,255,71,0.1));
+      border-color: rgba(105,255,71,0.35);
+      color: var(--accent3);
+      padding: 10px 18px;
+      font-size: 0.85rem;
     }
-    .platform-windows { background: rgba(14,165,233,0.12); color: #38bdf8; border: 1px solid rgba(14,165,233,0.2); }
-    .platform-macos   { background: rgba(248,250,252,0.06); color: #cbd5e1; border: 1px solid rgba(255,255,255,0.1); }
-    .platform-linux   { background: rgba(250,204,21,0.1);  color: #fbbf24; border: 1px solid rgba(250,204,21,0.2); }
-    .platform-android { background: rgba(34,197,94,0.1);   color: #4ade80; border: 1px solid rgba(34,197,94,0.2); }
-    .platform-web     { background: rgba(167,139,250,0.1); color: var(--accent2); border: 1px solid rgba(167,139,250,0.2); }
+    .dl-size {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.58rem;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    /* TV-mode: bigger tap targets */
+    body.tv-mode .app-card { padding: 1.75rem; border-radius: 20px; }
+    body.tv-mode .app-name { font-size: 1.15rem; }
+    body.tv-mode .app-desc { font-size: 0.9rem; -webkit-line-clamp: 2; }
+    body.tv-mode .dl-btn   { padding: 12px 24px; font-size: 0.95rem; border-radius: 12px; }
+    body.tv-mode .app-icon { width: 64px; height: 64px; border-radius: 14px; }
+    body.tv-mode .app-icon-placeholder { width: 64px; height: 64px; border-radius: 14px; font-size: 28px; }
 
     /* ─── Skeleton ─── */
     .skeleton {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--r);
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
+      padding: 1.35rem;
+      display: flex; flex-direction: column; gap: 0.7rem;
     }
     .skel {
-      background: linear-gradient(90deg, var(--surface2) 25%, rgba(255,255,255,0.04) 50%, var(--surface2) 75%);
+      background: linear-gradient(90deg, var(--surface2) 25%, rgba(255,255,255,0.035) 50%, var(--surface2) 75%);
       background-size: 200% 100%;
-      animation: shimmer 1.4s infinite;
+      animation: shimmer 1.5s infinite;
       border-radius: 6px;
     }
     @keyframes shimmer { from{background-position:200% 0} to{background-position:-200% 0} }
 
-    /* ─── Empty / Error ─── */
-    .state-box {
+    /* ─── Empty state ─── */
+    .empty-state {
       grid-column: 1/-1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 5rem 2rem;
-      text-align: center;
-      gap: 1rem;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 5rem 2rem; text-align: center; gap: 1rem;
     }
-    .state-box .icon { font-size: 3rem; opacity: 0.3; }
-    .state-box p { color: var(--muted); font-size: 0.9rem; }
+    .empty-state .icon { font-size: 3rem; opacity: 0.25; }
+    .empty-state p { color: var(--muted); font-size: 0.88rem; }
+
+    /* ─── TV Install modal ─── */
+    #tv-modal-overlay {
+      display: none;
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(8px);
+      align-items: center; justify-content: center;
+    }
+    #tv-modal-overlay.open { display: flex; }
+    .tv-modal {
+      background: var(--surface2);
+      border: 1px solid rgba(0,229,255,0.2);
+      border-radius: 20px;
+      padding: 2rem;
+      max-width: 480px; width: 92%;
+      position: relative;
+    }
+    .tv-modal h3 {
+      font-size: 1.15rem; font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .tv-modal .steps {
+      display: flex; flex-direction: column; gap: 0.8rem;
+      margin: 1.25rem 0;
+    }
+    .tv-modal .step {
+      display: flex; align-items: flex-start; gap: 12px;
+      background: var(--surface3);
+      border-radius: 10px; padding: 10px 14px;
+    }
+    .step-n {
+      width: 22px; height: 22px;
+      background: rgba(0,229,255,0.15);
+      border: 1px solid rgba(0,229,255,0.3);
+      border-radius: 50%;
+      display: grid; place-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem; color: var(--accent);
+      flex-shrink: 0;
+    }
+    .step-text { font-size: 0.83rem; color: var(--text2); line-height: 1.5; }
+    .step-text strong { color: var(--text); }
+    .tv-modal .modal-footer {
+      display: flex; justify-content: flex-end; gap: 0.75rem;
+      margin-top: 1.25rem;
+    }
+    .btn-ghost {
+      padding: 9px 18px;
+      background: var(--surface3);
+      border: 1px solid var(--border);
+      color: var(--text2);
+      border-radius: 10px; cursor: pointer;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.82rem; font-weight: 600;
+    }
+    .btn-primary {
+      padding: 9px 18px;
+      background: rgba(0,229,255,0.12);
+      border: 1px solid rgba(0,229,255,0.3);
+      color: var(--accent);
+      border-radius: 10px; cursor: pointer;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.82rem; font-weight: 600;
+    }
+    .btn-primary:hover { background: rgba(0,229,255,0.2); }
+    #qr-container {
+      display: flex; justify-content: center; margin: 1rem 0;
+    }
+    #qr-container canvas { border-radius: 8px; }
 
     /* ─── Footer ─── */
     footer {
-      position: relative;
-      z-index: 1;
+      position: relative; z-index: 1;
       border-top: 1px solid var(--border);
-      padding: 1.5rem clamp(1.5rem, 5vw, 4rem);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      color: var(--muted);
+      padding: 1.25rem clamp(1.5rem, 5vw, 4rem);
+      display: flex; align-items: center; justify-content: space-between;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem; color: var(--muted);
+      flex-wrap: wrap; gap: 0.5rem;
     }
-    .footer-pulse {
-      display: flex;
-      align-items: center;
-      gap: 6px;
+    .footer-live {
+      display: flex; align-items: center; gap: 6px;
     }
-    .footer-pulse::before {
-      content: '●';
-      color: #4ade80;
-      font-size: 8px;
-      animation: blink 2s infinite;
+    .footer-live .dot {
+      width: 6px; height: 6px;
+      background: var(--accent3);
+      border-radius: 50%;
+      animation: pulse-dot 2s infinite;
     }
 
-    /* ─── Scrollbar ─── */
-    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar { width: 5px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 99px; }
 
     @media (max-width: 600px) {
-      #app-grid { grid-template-columns: 1fr; }
-      #search { width: 160px; }
+      .app-grid { grid-template-columns: 1fr; }
+      #search { width: 150px; }
       #search:focus { width: 180px; }
+      .stats-strip { gap: 0.75rem; }
     }
   </style>
 </head>
 <body>
 
+<div class="bg-fx"></div>
+
+<!-- Device detection banner -->
+<div id="device-banner">
+  <div class="device-info">
+    <span class="device-icon" id="d-icon">📱</span>
+    <span class="device-label">Detected: <strong id="d-label">Loading…</strong></span>
+  </div>
+  <span class="compat-note" id="d-compat">Checking compatibility…</span>
+</div>
+
 <header>
   <div class="logo">
-    <div class="logo-icon">⬡</div>
+    <div class="logo-mark">⬡</div>
     App<span>Vault</span>
   </div>
   <div class="header-right">
     <div class="search-wrap">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
       </svg>
       <input type="search" id="search" placeholder="Search apps…" autocomplete="off"/>
@@ -473,196 +571,309 @@
 </header>
 
 <section class="hero">
-  <div class="hero-tag">Open Source Apps</div>
-  <h1>All my apps,<br><em>one place.</em></h1>
-  <p>Browse, explore, and download every app I've built. Each release is automatically published here via GitHub Actions.</p>
+  <div class="hero-eyebrow">
+    <span class="live-dot"></span>
+    Open Source · Auto-Published via GitHub Actions
+  </div>
+  <h1>All my apps,<br><span class="grad">one place.</span></h1>
+  <p class="hero-sub">Browse, explore, and download every app I've built — filtered for your device automatically.</p>
 </section>
 
-<div class="filter-bar" id="filter-bar">
+<div class="stats-strip" id="stats-strip">
+  <!-- filled by JS -->
+</div>
+
+<div class="filter-row" id="filter-row">
   <span class="filter-label">FILTER</span>
   <button class="filter-btn active" data-filter="all">All</button>
 </div>
 
-<section class="grid-section">
-  <div class="section-header">
-    <span class="section-title">// apps</span>
-    <span id="app-count"></span>
-  </div>
-  <div id="app-grid">
-    <!-- Skeletons while loading -->
-    <div class="skeleton"><div class="skel" style="height:52px;width:52px;border-radius:12px"></div><div class="skel" style="height:18px;width:60%"></div><div class="skel" style="height:12px;width:40%"></div><div class="skel" style="height:56px"></div><div class="skel" style="height:32px;width:120px;align-self:flex-end"></div></div>
-    <div class="skeleton"><div class="skel" style="height:52px;width:52px;border-radius:12px"></div><div class="skel" style="height:18px;width:70%"></div><div class="skel" style="height:12px;width:35%"></div><div class="skel" style="height:56px"></div><div class="skel" style="height:32px;width:120px;align-self:flex-end"></div></div>
-    <div class="skeleton"><div class="skel" style="height:52px;width:52px;border-radius:12px"></div><div class="skel" style="height:18px;width:55%"></div><div class="skel" style="height:12px;width:45%"></div><div class="skel" style="height:56px"></div><div class="skel" style="height:32px;width:120px;align-self:flex-end"></div></div>
-  </div>
-</section>
+<div class="content-area" id="content-area">
+  <!-- filled by JS -->
+</div>
 
 <footer>
-  <div class="footer-pulse">Data auto-updated by GitHub Actions</div>
+  <div class="footer-live"><span class="dot"></span>Auto-updated by GitHub Actions</div>
   <span>© <span id="yr"></span> AppVault</span>
 </footer>
 
+<!-- TV / sideload modal -->
+<div id="tv-modal-overlay">
+  <div class="tv-modal">
+    <h3>📺 Install on Android TV</h3>
+    <p style="font-size:0.82rem;color:var(--text2)">Android TV doesn't support direct browser downloads. Use one of these methods:</p>
+    <div class="steps">
+      <div class="step">
+        <span class="step-n">1</span>
+        <span class="step-text"><strong>Easiest:</strong> Install <strong>Downloader</strong> app from the Play Store on your TV, then enter the APK URL manually.</span>
+      </div>
+      <div class="step">
+        <span class="step-n">2</span>
+        <span class="step-text"><strong>ADB:</strong> Enable Developer Options on TV, then run <code style="background:var(--surface);padding:1px 5px;border-radius:4px;font-size:0.78rem">adb install &lt;apk-file&gt;</code> from your computer.</span>
+      </div>
+      <div class="step">
+        <span class="step-n">3</span>
+        <span class="step-text"><strong>Scan QR:</strong> Scan with your phone to download the APK, transfer to TV via USB or network share.</span>
+      </div>
+    </div>
+    <div id="modal-apk-url" style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--accent);background:var(--surface3);border-radius:8px;padding:8px 12px;word-break:break-all;margin-bottom:0.5rem;"></div>
+    <div id="qr-container"></div>
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="closeModal()">Close</button>
+      <button class="btn-primary" onclick="copyModalUrl()">Copy URL</button>
+    </div>
+  </div>
+</div>
+
 <script>
-/* ══════════════════════════════════════════════════════
-   CONFIG — point this to your registry JSON file.
-   GitHub Actions from each repo should push/update
-   entries into this file (or a folder of JSONs).
-   ══════════════════════════════════════════════════════ */
+/* ══════════════════ CONFIG ══════════════════ */
 const REGISTRY_URL = './apps.json';
 
-/* ══════════════════════════════════════════════════════
-   SAMPLE DATA — used as fallback / demo when no
-   apps.json is found. GitHub Actions will overwrite
-   apps.json with real data.
-   ══════════════════════════════════════════════════════ */
-const DEMO_APPS = [
-  {
-    id: "devnotes",
-    name: "DevNotes",
-    version: "1.3.0",
-    description: "A blazing-fast local markdown notepad for developers. Syncs via file system, never touches the cloud.",
-    icon: "📝",
-    iconBg: "linear-gradient(135deg,#1e3a5f,#0f2040)",
-    tags: ["productivity","markdown","electron"],
-    platforms: ["windows","macos","linux"],
-    downloadUrl: "https://github.com/you/devnotes/releases/latest",
-    downloads: 1420,
-    stars: 87,
-    updated: "2025-03-08"
-  },
-  {
-    id: "portpulse",
-    name: "PortPulse",
-    version: "0.9.2",
-    description: "Live network port scanner and process monitor. See what's running on your machine at a glance.",
-    icon: "🔍",
-    iconBg: "linear-gradient(135deg,#1a3030,#0d2020)",
-    tags: ["network","cli","sysadmin"],
-    platforms: ["windows","linux"],
-    downloadUrl: "https://github.com/you/portpulse/releases/latest",
-    downloads: 865,
-    stars: 56,
-    updated: "2025-02-28"
-  },
-  {
-    id: "palettegen",
-    name: "PaletteGen",
-    version: "2.1.0",
-    description: "Generate, preview and export beautiful color palettes from any image or HEX seed. Export to CSS, Figma, and JSON.",
-    icon: "🎨",
-    iconBg: "linear-gradient(135deg,#3b1a5f,#1a0f40)",
-    tags: ["design","tool","web"],
-    platforms: ["web"],
-    downloadUrl: "https://github.com/you/palettegen/releases/latest",
-    downloads: 3210,
-    stars: 203,
-    updated: "2025-03-01"
-  },
-  {
-    id: "snapclip",
-    name: "SnapClip",
-    version: "1.0.5",
-    description: "Clipboard history manager that keeps your last 500 clips, searchable and pinnable. Lightweight system tray app.",
-    icon: "📋",
-    iconBg: "linear-gradient(135deg,#3a1a1a,#201010)",
-    tags: ["utility","tray","productivity"],
-    platforms: ["windows","macos"],
-    downloadUrl: "https://github.com/you/snapclip/releases/latest",
-    downloads: 2100,
-    stars: 140,
-    updated: "2025-03-05"
-  },
-  {
-    id: "taskflow",
-    name: "TaskFlow",
-    version: "3.0.1",
-    description: "Minimal kanban board that lives locally. No account, no subscription. Just plain-text task management.",
-    icon: "✅",
-    iconBg: "linear-gradient(135deg,#0f3a1a,#081d0e)",
-    tags: ["productivity","kanban","local"],
-    platforms: ["windows","macos","linux"],
-    downloadUrl: "https://github.com/you/taskflow/releases/latest",
-    downloads: 4780,
-    stars: 312,
-    updated: "2025-02-20"
-  },
-  {
-    id: "logwatcher",
-    name: "LogWatcher",
-    version: "1.1.0",
-    description: "Real-time log tail viewer with regex filtering, color highlighting, and alert triggers. Great for debugging servers.",
-    icon: "📡",
-    iconBg: "linear-gradient(135deg,#1a2a0f,#0d1508)",
-    tags: ["devops","cli","monitoring"],
-    platforms: ["linux","macos"],
-    downloadUrl: "https://github.com/you/logwatcher/releases/latest",
-    downloads: 670,
-    stars: 44,
-    updated: "2025-01-15"
-  }
-];
+/* ══════════════════ DEVICE DETECTION ══════════════════ */
+function detectDevice() {
+  const ua = navigator.userAgent.toLowerCase();
+  const w = window.innerWidth;
 
-/* ══════════════════════════════════════════════════════ */
+  const isTV = /googletv|androidtv|smart-tv|smarttv|hbbtv|netcast|viera|bravia|philips|loewe|samsung.*tv|lg.*tv|tv safari|tvos/.test(ua)
+    || (ua.includes('android') && (w >= 1280) && !/mobile/.test(ua) && !/tablet/.test(ua))
+    || ua.includes('firetv') || ua.includes('fire_tv') || ua.includes('aftb') || ua.includes('aftt');
 
-document.getElementById('yr').textContent = new Date().getFullYear();
+  const isFireTV = ua.includes('firetv') || ua.includes('fire_tv') || ua.includes('aftb') || ua.includes('aftt');
+  const isAndroid = ua.includes('android');
+  const isTablet  = isAndroid && !isTV && (w >= 768);
+  const isPhone   = isAndroid && !isTV && !isTablet;
+  const isIOS     = /iphone|ipad/.test(ua);
+  const isDesktop = !isTV && !isAndroid && !isIOS;
 
-let allApps = [];
-let activeFilter = 'all';
-
-function platformBadge(p) {
-  const labels = { windows:'Windows', macos:'macOS', linux:'Linux', android:'Android', web:'Web' };
-  return `<span class="platform-badge platform-${p}">${labels[p]||p}</span>`;
+  if (isTV && isFireTV) return { type:'firetv',   label:'Fire TV',        icon:'📺', compatPlatforms:['android','android-tv'] };
+  if (isTV)             return { type:'tv',        label:'Android TV',     icon:'📺', compatPlatforms:['android','android-tv'] };
+  if (isTablet)         return { type:'tablet',    label:'Android Tablet', icon:'📱', compatPlatforms:['android'] };
+  if (isPhone)          return { type:'android',   label:'Android Phone',  icon:'📱', compatPlatforms:['android'] };
+  if (isIOS)            return { type:'ios',        label:'iPhone / iPad',  icon:'🍎', compatPlatforms:[] };
+  return                       { type:'desktop',   label:'Desktop',        icon:'💻', compatPlatforms:['windows','macos','linux','web'] };
 }
 
-function renderCard(app, delay) {
-  const stars  = app.stars  ? `<span class="stat"><svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>${app.stars}</span>` : '';
-  const dls    = app.downloads ? `<span class="stat"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>${app.downloads.toLocaleString()}</span>` : '';
-  const tags   = (app.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('');
-  const plats  = (app.platforms||[]).map(platformBadge).join('');
-  const iconStyle = app.iconBg ? `background:${app.iconBg}` : 'background:var(--surface2)';
-  const updated = app.updated ? `<span class="stat"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${app.updated}</span>` : '';
+const DEVICE = detectDevice();
+document.getElementById('d-icon').textContent = DEVICE.icon;
+document.getElementById('d-label').textContent = DEVICE.label;
+
+const compatNote = {
+  tv:      'Showing Android TV compatible apps · Tap Download for sideload guide',
+  firetv:  'Showing Fire TV compatible apps · Tap Download for sideload guide',
+  android: 'Showing Android apps · APKs download directly',
+  tablet:  'Showing Android apps',
+  ios:     'No native Android apps — showing all',
+  desktop: 'Showing all apps',
+}[DEVICE.type] || 'Showing all apps';
+
+document.getElementById('d-compat').textContent = compatNote;
+if (DEVICE.type === 'tv' || DEVICE.type === 'firetv') document.body.classList.add('tv-mode');
+
+/* ══════════════════ DATA ══════════════════ */
+let allApps = [];
+let activeFilter = 'all';
+let searchQuery = '';
+
+const DEMO_APPS = [
+  { id:"demo1", name:"DevNotes", version:"1.3.0", description:"A fast local markdown notepad for developers.", iconBg:"linear-gradient(135deg,#1e3a5f,#0f2040)", tags:["productivity","markdown"], platforms:["windows","macos","linux"], downloadUrl:"#", downloads:1420, stars:87, updated:"2025-03-08" }
+];
+
+/* ══════════════════ SCORING / CATEGORIES ══════════════════ */
+function scoreApp(app) {
+  let score = 0;
+  const platforms = app.platforms || [];
+  // Device match
+  if (DEVICE.compatPlatforms.length && DEVICE.compatPlatforms.some(p => platforms.includes(p))) score += 50;
+  // Popularity
+  score += Math.min((app.downloads || 0) * 0.1, 20);
+  score += Math.min((app.stars || 0) * 0.5, 15);
+  // Recency
+  if (app.updated) {
+    const days = (Date.now() - new Date(app.updated)) / 86400000;
+    if (days < 30) score += 10;
+    else if (days < 90) score += 5;
+  }
+  return score;
+}
+
+function isDeviceMatch(app) {
+  if (!DEVICE.compatPlatforms.length) return true;
+  return (app.platforms || []).some(p => DEVICE.compatPlatforms.includes(p));
+}
+
+function categorizeApps(apps) {
+  const sorted = [...apps].sort((a,b) => scoreApp(b) - scoreApp(a));
+  const matched = sorted.filter(isDeviceMatch);
+  const unmatched = sorted.filter(a => !isDeviceMatch(a));
+
+  const topPicks = matched.slice(0, 3).map(a => ({...a, _topPick: true}));
+  const forDevice = matched.map(a => ({...a, _deviceMatch: true}));
+  const all = sorted;
+
+  return { topPicks, forDevice, all, matched, unmatched };
+}
+
+/* ══════════════════ RENDER ══════════════════ */
+function platBadge(p) {
+  const label = { android:'Android', 'android-tv':'Android TV', windows:'Windows', macos:'macOS', linux:'Linux', web:'Web' };
+  return `<span class="plat plat-${p}">${label[p]||p}</span>`;
+}
+
+function renderCard(app, delay = 0) {
+  const isTV = DEVICE.type === 'tv' || DEVICE.type === 'firetv';
+  const plats = (app.platforms||[]).map(platBadge).join('');
+  const tags  = (app.tags||[]).slice(0,5).map(t=>`<span class="tag">${t}</span>`).join('');
+
+  const dlsHtml = app.downloads ? `<span class="meta-item"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>${app.downloads.toLocaleString()}</span>` : '';
+  const updHtml = app.updated ? `<span class="meta-item"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${app.updated}</span>` : '';
+
+  const iconEl = app.iconUrl
+    ? `<img class="app-icon" src="${app.iconUrl}" alt="${app.name}" onerror="this.outerHTML='<div class=\\'app-icon-placeholder\\' style=\\'background:${app.iconBg||'var(--surface2)'}'\\'>📦</div>'">`
+    : `<div class="app-icon-placeholder" style="background:${app.iconBg||'var(--surface2)'}">📦</div>`;
+
+  // Download button logic
+  let dlBtn = '';
+  if (!app.downloadUrl || app.downloadUrl === '#') {
+    dlBtn = `<span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--muted);padding:7px 10px">No download</span>`;
+  } else if (isTV) {
+    dlBtn = `<button class="dl-btn tv-dl" onclick="openTvModal('${app.downloadUrl}','${app.name}')">
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg>
+      Install Guide
+    </button>`;
+  } else {
+    dlBtn = `<a class="dl-btn" href="${app.downloadUrl}" download target="_blank" rel="noopener">
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+      Download
+    </a>`;
+  }
+
+  const sizeHtml = app.apkSize ? `<span class="dl-size">${app.apkSize}</span>` : '';
+
+  const cardClass = [
+    'app-card',
+    app._topPick ? 'top-pick' : '',
+    app._deviceMatch ? 'device-match' : ''
+  ].filter(Boolean).join(' ');
 
   return `
-    <div class="app-card" style="animation-delay:${delay}ms">
+    <div class="${cardClass}" style="animation-delay:${delay}ms">
       <div class="card-top">
-        <img src="${app.iconUrl || 'icons/app.png'}" href="logo" class="app-icon">
+        ${iconEl}
         <div class="app-meta">
           <div class="app-name">${app.name}</div>
-          <div class="app-version">
-            v${app.version||'1.0.0'}
-            &nbsp;${plats}
-          </div>
+          <div class="app-version">v${app.version||'1.0'}</div>
+          <div class="platform-pills">${plats}</div>
         </div>
       </div>
       <p class="app-desc">${app.description||''}</p>
       ${tags ? `<div class="card-tags">${tags}</div>` : ''}
       <div class="card-footer">
-        <div class="app-stats">${stars}${dls}${updated}</div>
-        <a class="dl-btn" href="${app.downloadUrl||'#'}" target="_blank" rel="noopener">
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-            <polyline points="7 10 12 15 17 10"/>
-            <line x1="12" y1="15" x2="12" y2="3"/>
-          </svg>
-          Download
-        </a>
+        <div class="card-meta">${dlsHtml}${updHtml}</div>
+        <div class="dl-wrap">${dlBtn}${sizeHtml}</div>
       </div>
     </div>`;
 }
 
-function renderGrid(apps) {
-  const grid = document.getElementById('app-grid');
-  document.getElementById('app-count').textContent = `${apps.length} app${apps.length!==1?'s':''}`;
-  if (!apps.length) {
-    grid.innerHTML = `<div class="state-box"><div class="icon">🔭</div><p>No apps match your search.</p></div>`;
-    return;
-  }
-  grid.innerHTML = apps.map((a,i)=>renderCard(a, i*60)).join('');
+function renderSection(title, icon, iconBg, apps, id, gridClass='') {
+  if (!apps.length) return '';
+  const cards = apps.map((a,i)=>renderCard(a, i*50)).join('');
+  return `
+    <div id="section-${id}">
+      <div class="section-heading">
+        <div class="section-heading-icon" style="background:${iconBg}">${icon}</div>
+        <h2>${title}</h2>
+        <span class="badge">${apps.length} app${apps.length!==1?'s':''}</span>
+      </div>
+      <div class="app-grid ${gridClass}">${cards}</div>
+    </div>`;
 }
 
+function renderAll(apps) {
+  const area = document.getElementById('content-area');
+  if (!apps.length) {
+    area.innerHTML = `<div class="app-grid"><div class="empty-state"><div class="icon">🔭</div><p>No apps match your search.</p></div></div>`;
+    return;
+  }
+
+  const cats = categorizeApps(apps);
+  const q = searchQuery.trim();
+
+  if (q || activeFilter !== 'all') {
+    // Flat view when filtering/searching
+    const filtered = applySearchFilter(apps);
+    area.innerHTML = renderSection('Results', '🔍', 'rgba(0,229,255,0.15)', filtered.map(a=>({...a, _deviceMatch:isDeviceMatch(a)})), 'filtered');
+    return;
+  }
+
+  const parts = [];
+
+  // Top picks section
+  if (cats.topPicks.length && DEVICE.compatPlatforms.length) {
+    parts.push(renderSection(
+      `Top Picks for ${DEVICE.label}`, '★', 'rgba(255,215,64,0.15)',
+      cats.topPicks, 'top', 'featured'
+    ));
+  }
+
+  // For your device
+  if (cats.forDevice.length && DEVICE.compatPlatforms.length && cats.forDevice.length !== cats.topPicks.length) {
+    const rest = cats.forDevice.filter(a => !cats.topPicks.find(t=>t.id===a.id));
+    if (rest.length) {
+      parts.push(renderSection(
+        `More for ${DEVICE.label}`, DEVICE.icon, 'rgba(105,255,71,0.12)',
+        rest, 'device'
+      ));
+    }
+  }
+
+  // All apps or unmatched
+  if (cats.unmatched.length) {
+    parts.push(renderSection('Other Apps', '📦', 'rgba(179,136,255,0.12)', cats.unmatched, 'other'));
+  }
+
+  // If no device-specific split, just show all
+  if (!parts.length || !DEVICE.compatPlatforms.length) {
+    parts.length = 0;
+    parts.push(renderSection('All Apps', '⬡', 'rgba(0,229,255,0.1)', cats.all, 'all'));
+  }
+
+  area.innerHTML = parts.join('');
+}
+
+function applySearchFilter(apps) {
+  let result = apps;
+  const q = searchQuery.toLowerCase().trim();
+  if (activeFilter !== 'all') result = result.filter(a=>(a.tags||[]).includes(activeFilter));
+  if (q) result = result.filter(a =>
+    a.name.toLowerCase().includes(q) ||
+    (a.description||'').toLowerCase().includes(q) ||
+    (a.tags||[]).some(t=>t.includes(q))
+  );
+  return result;
+}
+
+function refreshView() {
+  renderAll(allApps);
+}
+
+/* ══════════════════ STATS STRIP ══════════════════ */
+function renderStats(apps) {
+  const totalDls = apps.reduce((s,a)=>(s+(a.downloads||0)),0);
+  const strip = document.getElementById('stats-strip');
+  strip.innerHTML = `
+    <div class="stat-pill"><span class="n">${apps.length}</span><span class="l">apps</span></div>
+    <div class="stat-pill"><span class="n">${totalDls.toLocaleString()}</span><span class="l">total downloads</span></div>
+    <div class="stat-pill"><span class="n">${DEVICE.icon}</span><span class="l">${DEVICE.label}</span></div>`;
+}
+
+/* ══════════════════ FILTERS ══════════════════ */
 function buildFilters(apps) {
   const allTags = new Set(apps.flatMap(a=>a.tags||[]));
-  const bar = document.getElementById('filter-bar');
-  // remove old tag buttons but keep "All"
+  const bar = document.getElementById('filter-row');
   [...bar.querySelectorAll('[data-filter]:not([data-filter="all"])')].forEach(b=>b.remove());
   allTags.forEach(tag=>{
     const btn = document.createElement('button');
@@ -673,40 +884,60 @@ function buildFilters(apps) {
   });
 }
 
-function applyFilters() {
-  const q = document.getElementById('search').value.toLowerCase().trim();
-  let result = allApps;
-  if (activeFilter !== 'all') result = result.filter(a=>(a.tags||[]).includes(activeFilter));
-  if (q) result = result.filter(a=>
-    a.name.toLowerCase().includes(q) ||
-    (a.description||'').toLowerCase().includes(q) ||
-    (a.tags||[]).some(t=>t.includes(q))
-  );
-  renderGrid(result);
-}
-
-document.getElementById('filter-bar').addEventListener('click', e=>{
+document.getElementById('filter-row').addEventListener('click', e=>{
   const btn = e.target.closest('.filter-btn');
   if (!btn) return;
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   activeFilter = btn.dataset.filter;
-  applyFilters();
+  refreshView();
 });
 
-document.getElementById('search').addEventListener('input', applyFilters);
+document.getElementById('search').addEventListener('input', e=>{
+  searchQuery = e.target.value;
+  refreshView();
+});
+
+/* ══════════════════ TV MODAL ══════════════════ */
+let _modalUrl = '';
+function openTvModal(url, name) {
+  _modalUrl = url;
+  document.getElementById('modal-apk-url').textContent = url;
+  document.getElementById('tv-modal-overlay').classList.add('open');
+  // Simple QR using a free API
+  const qrDiv = document.getElementById('qr-container');
+  const encoded = encodeURIComponent(url);
+  qrDiv.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?data=${encoded}&size=140x140&color=00e5ff&bgcolor=14141f" alt="QR" style="border-radius:10px;border:1px solid rgba(0,229,255,0.2)" onerror="this.style.display='none'">`;
+}
+function closeModal() {
+  document.getElementById('tv-modal-overlay').classList.remove('open');
+}
+function copyModalUrl() {
+  navigator.clipboard.writeText(_modalUrl).then(()=>{
+    const btn = document.querySelector('.btn-primary');
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied!';
+    setTimeout(()=>btn.textContent=orig, 1800);
+  });
+}
+document.getElementById('tv-modal-overlay').addEventListener('click', e=>{
+  if (e.target === document.getElementById('tv-modal-overlay')) closeModal();
+});
+
+/* ══════════════════ LOAD ══════════════════ */
+document.getElementById('yr').textContent = new Date().getFullYear();
 
 async function loadApps() {
   try {
-    const res = await fetch(REGISTRY_URL, { cache: 'no-cache' });
+    const res = await fetch(REGISTRY_URL, { cache:'no-cache' });
     if (!res.ok) throw new Error('not found');
     allApps = await res.json();
   } catch {
-    // Fallback to demo data
     allApps = DEMO_APPS;
   }
   buildFilters(allApps);
-  applyFilters();
+  renderStats(allApps);
+  renderAll(allApps);
 }
 
 loadApps();
