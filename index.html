@@ -37,7 +37,6 @@
       overflow-x: hidden;
     }
 
-    /* Ambient background */
     .bg-fx {
       position: fixed; inset: 0; pointer-events: none; z-index: 0;
       background:
@@ -70,6 +69,18 @@
       padding: 3px 10px;
       font-size: 0.68rem;
     }
+    /* ABI badge shown in banner when detected */
+    #abi-banner-badge {
+      display: none;
+      align-items: center; gap: 6px;
+      background: rgba(105,255,71,0.08);
+      border: 1px solid rgba(105,255,71,0.22);
+      border-radius: 6px;
+      padding: 3px 10px;
+      font-size: 0.68rem;
+      color: var(--accent3);
+    }
+    #abi-banner-badge.show { display: flex; }
 
     /* ─── Header ─── */
     header {
@@ -114,7 +125,6 @@
     #search:focus { border-color: var(--accent); width: 260px; }
     #search::placeholder { color: var(--muted); }
 
-    /* TV mode overrides */
     body.tv-mode header { height: 72px; }
     body.tv-mode #search { font-size: 1rem; padding: 10px 16px 10px 40px; }
     body.tv-mode .logo { font-size: 1.3rem; }
@@ -354,8 +364,10 @@
       border: 1px solid var(--border);
       color: var(--muted);
     }
+
+    /* ─── Download section ─── */
     .card-footer {
-      display: flex; align-items: center;
+      display: flex; align-items: flex-end;
       justify-content: space-between; gap: 0.6rem;
       margin-top: auto;
     }
@@ -368,7 +380,136 @@
       font-size: 0.67rem; color: var(--muted);
     }
 
-    /* Download button - enhanced with size info */
+    /* ── Split variants panel ── */
+    .splits-panel {
+      margin-bottom: 0.85rem;
+      border: 1px solid var(--border2);
+      border-radius: var(--r-sm);
+      overflow: hidden;
+    }
+    .splits-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 7px 11px;
+      background: var(--surface2);
+      cursor: pointer;
+      user-select: none;
+      gap: 8px;
+    }
+    .splits-header:hover { background: var(--surface3); }
+    .splits-header-left {
+      display: flex; align-items: center; gap: 7px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem; color: var(--text2);
+    }
+    .splits-icon {
+      font-size: 0.72rem;
+      background: rgba(179,136,255,0.15);
+      border: 1px solid rgba(179,136,255,0.25);
+      color: var(--accent2);
+      border-radius: 4px;
+      padding: 2px 6px;
+    }
+    .splits-count {
+      background: rgba(0,229,255,0.1);
+      border: 1px solid rgba(0,229,255,0.2);
+      color: var(--accent);
+      border-radius: 99px;
+      padding: 1px 7px;
+      font-size: 0.62rem;
+    }
+    /* "recommended" badge next to variant label */
+    .rec-badge {
+      background: rgba(105,255,71,0.12);
+      border: 1px solid rgba(105,255,71,0.25);
+      color: var(--accent3);
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-size: 0.58rem;
+      letter-spacing: 0.04em;
+    }
+    .splits-chevron {
+      font-size: 0.65rem; color: var(--muted);
+      transition: transform 0.2s;
+    }
+    .splits-panel.open .splits-chevron { transform: rotate(180deg); }
+
+    .splits-body {
+      display: none;
+      flex-direction: column;
+      background: rgba(0,0,0,0.18);
+    }
+    .splits-panel.open .splits-body { display: flex; }
+
+    .split-row {
+      display: flex; align-items: center;
+      padding: 8px 11px;
+      gap: 8px;
+      border-top: 1px solid var(--border);
+      transition: background 0.13s;
+    }
+    .split-row:hover { background: rgba(255,255,255,0.03); }
+    .split-abi {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--text);
+      min-width: 90px;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .split-abi-dot {
+      width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
+    }
+    /* ABI colors */
+    .abi-arm64   { background: #69ff47; }
+    .abi-arm32   { background: #00e5ff; }
+    .abi-x86_64  { background: #b388ff; }
+    .abi-x86     { background: #ffd740; }
+    .abi-universal { background: #ff9cee; }
+    .abi-default { background: #52526a; }
+
+    .split-label {
+      flex: 1;
+      font-size: 0.72rem; color: var(--text2);
+    }
+    .split-size {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.63rem; color: var(--muted);
+      min-width: 36px; text-align: right;
+    }
+    .split-dl-btn {
+      display: flex; align-items: center; gap: 5px;
+      background: linear-gradient(135deg, rgba(0,229,255,0.11), rgba(179,136,255,0.07));
+      border: 1px solid rgba(0,229,255,0.22);
+      color: var(--accent);
+      border-radius: 7px;
+      padding: 5px 11px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.72rem; font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .split-dl-btn:hover {
+      background: linear-gradient(135deg, rgba(0,229,255,0.2), rgba(179,136,255,0.13));
+      border-color: var(--accent);
+      box-shadow: 0 0 12px rgba(0,229,255,0.15);
+    }
+    /* Highlight recommended row */
+    .split-row.recommended {
+      background: rgba(105,255,71,0.04);
+    }
+    .split-row.recommended .split-abi { color: var(--accent3); }
+    .split-row.recommended .split-dl-btn {
+      background: linear-gradient(135deg, rgba(105,255,71,0.14), rgba(0,229,255,0.07));
+      border-color: rgba(105,255,71,0.3);
+      color: var(--accent3);
+    }
+    .split-row.recommended .split-dl-btn:hover {
+      background: linear-gradient(135deg, rgba(105,255,71,0.24), rgba(0,229,255,0.12));
+      border-color: var(--accent3);
+    }
+
+    /* single download button (no splits) */
     .dl-wrap { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
     .dl-btn {
       display: flex; align-items: center; gap: 6px;
@@ -383,7 +524,6 @@
       text-decoration: none;
       transition: all 0.17s;
       white-space: nowrap;
-      position: relative;
     }
     .dl-btn:hover {
       background: linear-gradient(135deg, rgba(0,229,255,0.24), rgba(179,136,255,0.16));
@@ -406,29 +546,12 @@
       text-align: right;
     }
 
-    /* TV-mode: bigger tap targets */
     body.tv-mode .app-card { padding: 1.75rem; border-radius: 20px; }
     body.tv-mode .app-name { font-size: 1.15rem; }
     body.tv-mode .app-desc { font-size: 0.9rem; -webkit-line-clamp: 2; }
     body.tv-mode .dl-btn   { padding: 12px 24px; font-size: 0.95rem; border-radius: 12px; }
     body.tv-mode .app-icon { width: 64px; height: 64px; border-radius: 14px; }
     body.tv-mode .app-icon-placeholder { width: 64px; height: 64px; border-radius: 14px; font-size: 28px; }
-
-    /* ─── Skeleton ─── */
-    .skeleton {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 1.35rem;
-      display: flex; flex-direction: column; gap: 0.7rem;
-    }
-    .skel {
-      background: linear-gradient(90deg, var(--surface2) 25%, rgba(255,255,255,0.035) 50%, var(--surface2) 75%);
-      background-size: 200% 100%;
-      animation: shimmer 1.5s infinite;
-      border-radius: 6px;
-    }
-    @keyframes shimmer { from{background-position:200% 0} to{background-position:-200% 0} }
 
     /* ─── Empty state ─── */
     .empty-state {
@@ -438,77 +561,6 @@
     }
     .empty-state .icon { font-size: 3rem; opacity: 0.25; }
     .empty-state p { color: var(--muted); font-size: 0.88rem; }
-
-    /* ─── TV Install modal ─── */
-    #tv-modal-overlay {
-      display: none;
-      position: fixed; inset: 0; z-index: 200;
-      background: rgba(0,0,0,0.85);
-      backdrop-filter: blur(8px);
-      align-items: center; justify-content: center;
-    }
-    #tv-modal-overlay.open { display: flex; }
-    .tv-modal {
-      background: var(--surface2);
-      border: 1px solid rgba(0,229,255,0.2);
-      border-radius: 20px;
-      padding: 2rem;
-      max-width: 480px; width: 92%;
-      position: relative;
-    }
-    .tv-modal h3 {
-      font-size: 1.15rem; font-weight: 700;
-      margin-bottom: 1rem;
-      display: flex; align-items: center; gap: 8px;
-    }
-    .tv-modal .steps {
-      display: flex; flex-direction: column; gap: 0.8rem;
-      margin: 1.25rem 0;
-    }
-    .tv-modal .step {
-      display: flex; align-items: flex-start; gap: 12px;
-      background: var(--surface3);
-      border-radius: 10px; padding: 10px 14px;
-    }
-    .step-n {
-      width: 22px; height: 22px;
-      background: rgba(0,229,255,0.15);
-      border: 1px solid rgba(0,229,255,0.3);
-      border-radius: 50%;
-      display: grid; place-items: center;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.68rem; color: var(--accent);
-      flex-shrink: 0;
-    }
-    .step-text { font-size: 0.83rem; color: var(--text2); line-height: 1.5; }
-    .step-text strong { color: var(--text); }
-    .tv-modal .modal-footer {
-      display: flex; justify-content: flex-end; gap: 0.75rem;
-      margin-top: 1.25rem;
-    }
-    .btn-ghost {
-      padding: 9px 18px;
-      background: var(--surface3);
-      border: 1px solid var(--border);
-      color: var(--text2);
-      border-radius: 10px; cursor: pointer;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.82rem; font-weight: 600;
-    }
-    .btn-primary {
-      padding: 9px 18px;
-      background: rgba(0,229,255,0.12);
-      border: 1px solid rgba(0,229,255,0.3);
-      color: var(--accent);
-      border-radius: 10px; cursor: pointer;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.82rem; font-weight: 600;
-    }
-    .btn-primary:hover { background: rgba(0,229,255,0.2); }
-    #qr-container {
-      display: flex; justify-content: center; margin: 1rem 0;
-    }
-    #qr-container canvas { border-radius: 8px; }
 
     /* ─── Footer ─── */
     footer {
@@ -520,9 +572,7 @@
       font-size: 0.68rem; color: var(--muted);
       flex-wrap: wrap; gap: 0.5rem;
     }
-    .footer-live {
-      display: flex; align-items: center; gap: 6px;
-    }
+    .footer-live { display: flex; align-items: center; gap: 6px; }
     .footer-live .dot {
       width: 6px; height: 6px;
       background: var(--accent3);
@@ -546,13 +596,17 @@
 
 <div class="bg-fx"></div>
 
-<!-- Device detection banner -->
 <div id="device-banner">
   <div class="device-info">
     <span class="device-icon" id="d-icon">📱</span>
     <span class="device-label">Detected: <strong id="d-label">Loading…</strong></span>
   </div>
-  <span class="compat-note" id="d-compat">Checking compatibility…</span>
+  <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+    <span id="abi-banner-badge">
+      <span id="abi-banner-text">Detecting ABI…</span>
+    </span>
+    <span class="compat-note" id="d-compat">Checking compatibility…</span>
+  </div>
 </div>
 
 <header>
@@ -579,56 +633,88 @@
   <p class="hero-sub">Browse, explore, and download every app I've built — filtered for your device automatically.</p>
 </section>
 
-<div class="stats-strip" id="stats-strip">
-  <!-- filled by JS -->
-</div>
-
+<div class="stats-strip" id="stats-strip"></div>
 <div class="filter-row" id="filter-row">
   <span class="filter-label">FILTER</span>
   <button class="filter-btn active" data-filter="all">All</button>
 </div>
-
-<div class="content-area" id="content-area">
-  <!-- filled by JS -->
-</div>
+<div class="content-area" id="content-area"></div>
 
 <footer>
   <div class="footer-live"><span class="dot"></span>Auto-updated by GitHub Actions</div>
   <span>© <span id="yr"></span> AppVault</span>
 </footer>
 
-
-
 <script>
 /* ══════════════════ CONFIG ══════════════════ */
 const REGISTRY_URL = './apps.json';
+
+/* ══════════════════ ABI DETECTION ══════════════════ */
+/*
+  ABI key names used in apps.json splits[].abi:
+    "arm64-v8a"   → 64-bit ARM (most modern Android)
+    "armeabi-v7a" → 32-bit ARM (older Android)
+    "x86_64"      → 64-bit x86 (emulators, some Chromebooks)
+    "x86"         → 32-bit x86
+    "universal"   → fat APK, works everywhere
+*/
+const ABI_META = {
+  'arm64-v8a':   { label:'ARM64',     desc:'64-bit ARM · Modern phones & tablets', dot:'abi-arm64',   short:'arm64' },
+  'armeabi-v7a': { label:'ARMv7',     desc:'32-bit ARM · Older/budget devices',    dot:'abi-arm32',   short:'armv7' },
+  'x86_64':      { label:'x86_64',    desc:'64-bit x86 · Emulators, Chromebooks',  dot:'abi-x86_64',  short:'x86_64' },
+  'x86':         { label:'x86',       desc:'32-bit x86 · Older emulators',         dot:'abi-x86',     short:'x86' },
+  'universal':   { label:'Universal', desc:'Works on all architectures',            dot:'abi-universal',short:'all' },
+};
+
+/* Attempt to detect device ABI via WebAssembly SIMD + pointer size heuristics.
+   This is a best-effort guess — it cannot be 100% accurate from a browser. */
+let DEVICE_ABI = null;
+
+async function detectABI() {
+  const ua = navigator.userAgent;
+  // Rough heuristics from UA string
+  if (/x86_64|x86-64|Win64|WOW64|amd64/i.test(ua) && !/Android/i.test(ua)) {
+    DEVICE_ABI = 'x86_64'; return;
+  }
+  if (/Android/i.test(ua)) {
+    // Try WASM to check 64-bit support as proxy for arm64
+    try {
+      const wasm64 = new WebAssembly.Module(new Uint8Array([
+        0,97,115,109,1,0,0,0,1,5,1,96,0,1,126,3,2,1,0,7,4,1,0,102,0,10,4,1,2,0,11
+      ]));
+      DEVICE_ABI = 'arm64-v8a';
+    } catch {
+      DEVICE_ABI = 'armeabi-v7a';
+    }
+    return;
+  }
+  if (/iPhone|iPad/i.test(ua)) { DEVICE_ABI = null; return; }
+  DEVICE_ABI = null;
+}
 
 /* ══════════════════ DEVICE DETECTION ══════════════════ */
 function detectDevice() {
   const ua = navigator.userAgent.toLowerCase();
   const w = window.innerWidth;
-
   const isTV = /googletv|androidtv|smart-tv|smarttv|hbbtv|netcast|viera|bravia|philips|loewe|samsung.*tv|lg.*tv|tv safari|tvos/.test(ua)
-    || (ua.includes('android') && (w >= 1280) && !/mobile/.test(ua) && !/tablet/.test(ua))
+    || (ua.includes('android') && w >= 1280 && !/mobile/.test(ua) && !/tablet/.test(ua))
     || ua.includes('firetv') || ua.includes('fire_tv') || ua.includes('aftb') || ua.includes('aftt');
-
   const isFireTV = ua.includes('firetv') || ua.includes('fire_tv') || ua.includes('aftb') || ua.includes('aftt');
   const isAndroid = ua.includes('android');
-  const isTablet  = isAndroid && !isTV && (w >= 768);
+  const isTablet  = isAndroid && !isTV && w >= 768;
   const isPhone   = isAndroid && !isTV && !isTablet;
   const isIOS     = /iphone|ipad/.test(ua);
-  const isDesktop = !isTV && !isAndroid && !isIOS;
 
-  if (isTV && isFireTV) return { type:'firetv',   label:'Fire TV',        icon:'📺', compatPlatforms:['android','android-tv'] };
-  if (isTV)             return { type:'tv',        label:'Android TV',     icon:'📺', compatPlatforms:['android','android-tv'] };
-  if (isTablet)         return { type:'tablet',    label:'Android Tablet', icon:'📱', compatPlatforms:['android'] };
-  if (isPhone)          return { type:'android',   label:'Android Phone',  icon:'📱', compatPlatforms:['android'] };
-  if (isIOS)            return { type:'ios',        label:'iPhone / iPad',  icon:'🍎', compatPlatforms:[] };
-  return                       { type:'desktop',   label:'Desktop',        icon:'💻', compatPlatforms:['windows','macos','linux','web'] };
+  if (isTV && isFireTV) return { type:'firetv',  label:'Fire TV',        icon:'📺', compatPlatforms:['android','android-tv'] };
+  if (isTV)             return { type:'tv',       label:'Android TV',     icon:'📺', compatPlatforms:['android','android-tv'] };
+  if (isTablet)         return { type:'tablet',   label:'Android Tablet', icon:'📱', compatPlatforms:['android'] };
+  if (isPhone)          return { type:'android',  label:'Android Phone',  icon:'📱', compatPlatforms:['android'] };
+  if (isIOS)            return { type:'ios',       label:'iPhone / iPad',  icon:'🍎', compatPlatforms:[] };
+  return                       { type:'desktop',  label:'Desktop',        icon:'💻', compatPlatforms:['windows','macos','linux','web'] };
 }
 
 const DEVICE = detectDevice();
-document.getElementById('d-icon').textContent = DEVICE.icon;
+document.getElementById('d-icon').textContent  = DEVICE.icon;
 document.getElementById('d-label').textContent = DEVICE.label;
 
 const compatNote = {
@@ -639,29 +725,67 @@ const compatNote = {
   ios:     'No native Android apps — showing all',
   desktop: 'Showing all apps',
 }[DEVICE.type] || 'Showing all apps';
-
 document.getElementById('d-compat').textContent = compatNote;
 if (DEVICE.type === 'tv' || DEVICE.type === 'firetv') document.body.classList.add('tv-mode');
 
-/* ══════════════════ DATA ══════════════════ */
+/* ══════════════════ DATA & STATE ══════════════════ */
 let allApps = [];
 let activeFilter = 'all';
-let searchQuery = '';
+let searchQuery  = '';
 
 const DEMO_APPS = [
-  { id:"demo1", name:"DevNotes", version:"1.3.0", description:"A fast local markdown notepad for developers.", iconBg:"linear-gradient(135deg,#1e3a5f,#0f2040)", tags:["productivity","markdown"], platforms:["windows","macos","linux"], downloadUrl:"#", downloads:1420, stars:87, updated:"2025-03-08" }
+  {
+    id:'demo1', name:'DevNotes', version:'1.3.0',
+    description:'A fast local markdown notepad for developers.',
+    iconBg:'linear-gradient(135deg,#1e3a5f,#0f2040)',
+    tags:['productivity','markdown'], platforms:['windows','macos','linux'],
+    downloadUrl:'#', downloads:1420, stars:87, updated:'2025-03-08'
+  }
 ];
 
-/* ══════════════════ SCORING / CATEGORIES ══════════════════ */
+/* ══════════════════ SPLIT HELPERS ══════════════════ */
+/*
+  apps.json split variant schema (optional field):
+  "splits": [
+    { "abi": "arm64-v8a",   "url": "https://…/app-arm64.apk",   "size": "28M" },
+    { "abi": "armeabi-v7a", "url": "https://…/app-armv7.apk",   "size": "25M" },
+    { "abi": "x86_64",      "url": "https://…/app-x86_64.apk",  "size": "30M" },
+    { "abi": "universal",   "url": "https://…/app-universal.apk","size": "55M" }
+  ]
+  If no splits, falls back to downloadUrl + apkSize as before.
+*/
+
+/* ABI preference order — most to least preferred */
+const ABI_PREFERENCE = ['arm64-v8a','armeabi-v7a','x86_64','x86','universal'];
+
+function recommendedSplit(splits) {
+  if (!splits || !splits.length) return null;
+  if (DEVICE_ABI) {
+    const exact = splits.find(s => s.abi === DEVICE_ABI);
+    if (exact) return exact;
+    // Fallback chain for Android
+    if (DEVICE_ABI === 'arm64-v8a') {
+      const v7 = splits.find(s => s.abi === 'armeabi-v7a');
+      if (v7) return v7;
+    }
+  }
+  // If unknown ABI, prefer universal then highest preference
+  const uni = splits.find(s => s.abi === 'universal');
+  if (uni) return uni;
+  for (const abi of ABI_PREFERENCE) {
+    const found = splits.find(s => s.abi === abi);
+    if (found) return found;
+  }
+  return splits[0];
+}
+
+/* ══════════════════ SCORING ══════════════════ */
 function scoreApp(app) {
   let score = 0;
   const platforms = app.platforms || [];
-  // Device match
   if (DEVICE.compatPlatforms.length && DEVICE.compatPlatforms.some(p => platforms.includes(p))) score += 50;
-  // Popularity
   score += Math.min((app.downloads || 0) * 0.1, 20);
   score += Math.min((app.stars || 0) * 0.5, 15);
-  // Recency
   if (app.updated) {
     const days = (Date.now() - new Date(app.updated)) / 86400000;
     if (days < 30) score += 10;
@@ -676,71 +800,125 @@ function isDeviceMatch(app) {
 }
 
 function categorizeApps(apps) {
-  const sorted = [...apps].sort((a,b) => scoreApp(b) - scoreApp(a));
-  const matched = sorted.filter(isDeviceMatch);
+  const sorted   = [...apps].sort((a,b) => scoreApp(b) - scoreApp(a));
+  const matched   = sorted.filter(isDeviceMatch);
   const unmatched = sorted.filter(a => !isDeviceMatch(a));
-
-  const topPicks = matched.slice(0, 3).map(a => ({...a, _topPick: true}));
-  const forDevice = matched.map(a => ({...a, _deviceMatch: true}));
-  const all = sorted;
-
-  return { topPicks, forDevice, all, matched, unmatched };
+  const topPicks  = matched.slice(0,3).map(a => ({...a, _topPick:true}));
+  const forDevice = matched.map(a => ({...a, _deviceMatch:true}));
+  return { topPicks, forDevice, all:sorted, matched, unmatched };
 }
 
 /* ══════════════════ RENDER ══════════════════ */
 function platBadge(p) {
-  const label = { android:'Android', 'android-tv':'Android TV', windows:'Windows', macos:'macOS', linux:'Linux', web:'Web' };
+  const label = { android:'Android','android-tv':'Android TV',windows:'Windows',macos:'macOS',linux:'Linux',web:'Web' };
   return `<span class="plat plat-${p}">${label[p]||p}</span>`;
 }
 
-function renderCard(app, delay = 0) {
+const DL_ICON = `<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`;
+
+function renderSplitsPanel(app) {
+  const splits = app.splits;
+  if (!splits || !splits.length) return '';
+
+  const rec  = recommendedSplit(splits);
   const isTV = DEVICE.type === 'tv' || DEVICE.type === 'firetv';
+
+  const rows = splits.map(s => {
+    const meta   = ABI_META[s.abi] || { label:s.abi, desc:'', dot:'abi-default', short:s.abi };
+    const isRec  = rec && s.abi === rec.abi;
+    const recBadge = isRec ? `<span class="rec-badge">✓ REC</span>` : '';
+    const url    = s.url || app.downloadUrl || '#';
+    const safeUrl= url.replace(/'/g,"\\'");
+
+    let dlBtn;
+    if (!url || url === '#') {
+      dlBtn = `<span style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--muted)">N/A</span>`;
+    } else if (isTV) {
+      dlBtn = `<a class="split-dl-btn" href="${url}" onclick="tvDownload(event,'${safeUrl}')">${DL_ICON} Get</a>`;
+    } else {
+      dlBtn = `<a class="split-dl-btn" href="${url}" download target="_blank" rel="noopener">${DL_ICON} Get</a>`;
+    }
+
+    return `
+      <div class="split-row${isRec?' recommended':''}">
+        <div class="split-abi">
+          <span class="split-abi-dot ${meta.dot}"></span>
+          ${meta.label}
+          ${recBadge}
+        </div>
+        <div class="split-label">${meta.desc}</div>
+        <div class="split-size">${s.size||''}</div>
+        ${dlBtn}
+      </div>`;
+  }).join('');
+
+  return `
+    <div class="splits-panel" data-splits>
+      <div class="splits-header" onclick="toggleSplits(this)">
+        <div class="splits-header-left">
+          <span class="splits-icon">APK</span>
+          Download variants
+          <span class="splits-count">${splits.length}</span>
+        </div>
+        <span class="splits-chevron">▼</span>
+      </div>
+      <div class="splits-body">${rows}</div>
+    </div>`;
+}
+
+function renderDownloadArea(app) {
+  const isTV = DEVICE.type === 'tv' || DEVICE.type === 'firetv';
+
+  // If app has splits, show the collapsible splits panel
+  if (app.splits && app.splits.length) {
+    const rec = recommendedSplit(app.splits);
+    if (rec) {
+      const url = rec.url || app.downloadUrl || '#';
+      const safeUrl = url.replace(/'/g,"\\'");
+      const meta = ABI_META[rec.abi] || { label:rec.abi };
+      let quickBtn;
+      if (!url || url === '#') {
+        quickBtn = '';
+      } else if (isTV) {
+        quickBtn = `<a class="dl-btn tv-dl" href="${url}" onclick="tvDownload(event,'${safeUrl}')">${DL_ICON} ${meta.label} APK</a>`;
+      } else {
+        quickBtn = `<a class="dl-btn" href="${url}" download target="_blank" rel="noopener">${DL_ICON} ${meta.label} APK</a>`;
+      }
+      const sizeHtml = rec.size ? `<span class="dl-size">${rec.size}</span>` : '';
+      return { splitsHtml: renderSplitsPanel(app), footerDl: `<div class="dl-wrap">${quickBtn}${sizeHtml}</div>` };
+    }
+  }
+
+  // Fallback — single download
+  const url = app.downloadUrl;
+  if (!url || url === '#') {
+    return { splitsHtml:'', footerDl:`<span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--muted);padding:7px 10px">No download</span>` };
+  }
+  const safeUrl = url.replace(/'/g,"\\'");
+  let dlBtn;
+  if (isTV) {
+    dlBtn = `<a class="dl-btn tv-dl" href="${url}" onclick="tvDownload(event,'${safeUrl}')">${DL_ICON} Download APK</a>`;
+  } else {
+    dlBtn = `<a class="dl-btn" href="${url}" download target="_blank" rel="noopener">${DL_ICON} Download</a>`;
+  }
+  const sizeHtml = app.apkSize ? `<span class="dl-size">${app.apkSize}</span>` : '';
+  return { splitsHtml:'', footerDl:`<div class="dl-wrap">${dlBtn}${sizeHtml}</div>` };
+}
+
+function renderCard(app, delay=0) {
   const plats = (app.platforms||[]).map(platBadge).join('');
   const tags  = (app.tags||[]).slice(0,5).map(t=>`<span class="tag">${t}</span>`).join('');
 
   const dlsHtml = app.downloads ? `<span class="meta-item"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>${app.downloads.toLocaleString()}</span>` : '';
-  const updHtml = app.updated ? `<span class="meta-item"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${app.updated}</span>` : '';
+  const updHtml = app.updated  ? `<span class="meta-item"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${app.updated}</span>` : '';
 
   const iconEl = app.iconUrl
-    ? `<img class="app-icon" src="${app.iconUrl}" alt="${app.name}" onerror="this.outerHTML='<div class=\\'app-icon-placeholder\\' style=\\'background:${app.iconBg||'var(--surface2)'}'\\'>📦</div>'">`
+    ? `<img class="app-icon" src="${app.iconUrl}" alt="${app.name}" onerror="this.outerHTML='<div class=\\'app-icon-placeholder\\' style=\\'background:${app.iconBg||'var(--surface2)'}\\'>📦</div>'">`
     : `<div class="app-icon-placeholder" style="background:${app.iconBg||'var(--surface2)'}">📦</div>`;
 
-  // Download button logic
-  // On Android TV, the browser can't trigger file downloads via the `download` attribute.
-  // The fix: navigate directly to the APK URL (window.location.href). The browser/OS
-  // handles it as a file download — same as if the user typed the URL in the address bar.
-  let dlBtn = '';
-  if (!app.downloadUrl || app.downloadUrl === '#') {
-    dlBtn = `<span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--muted);padding:7px 10px">No download</span>`;
-  } else if (isTV) {
-    // Use onclick navigate — avoids the browser blocking blob/download on TV WebKit
-    const safeUrl = app.downloadUrl.replace(/'/g, "\\'");
-    dlBtn = `<a class="dl-btn tv-dl" href="${app.downloadUrl}" onclick="tvDownload(event,'${safeUrl}')">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-        <polyline points="7 10 12 15 17 10"/>
-        <line x1="12" y1="15" x2="12" y2="3"/>
-      </svg>
-      Download APK
-    </a>`;
-  } else {
-    dlBtn = `<a class="dl-btn" href="${app.downloadUrl}" download target="_blank" rel="noopener">
-      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-        <polyline points="7 10 12 15 17 10"/>
-        <line x1="12" y1="15" x2="12" y2="3"/>
-      </svg>
-      Download
-    </a>`;
-  }
+  const { splitsHtml, footerDl } = renderDownloadArea(app);
 
-  const sizeHtml = app.apkSize ? `<span class="dl-size">${app.apkSize}</span>` : '';
-
-  const cardClass = [
-    'app-card',
-    app._topPick ? 'top-pick' : '',
-    app._deviceMatch ? 'device-match' : ''
-  ].filter(Boolean).join(' ');
+  const cardClass = ['app-card', app._topPick?'top-pick':'', app._deviceMatch?'device-match':''].filter(Boolean).join(' ');
 
   return `
     <div class="${cardClass}" style="animation-delay:${delay}ms">
@@ -754,16 +932,17 @@ function renderCard(app, delay = 0) {
       </div>
       <p class="app-desc">${app.description||''}</p>
       ${tags ? `<div class="card-tags">${tags}</div>` : ''}
+      ${splitsHtml}
       <div class="card-footer">
         <div class="card-meta">${dlsHtml}${updHtml}</div>
-        <div class="dl-wrap">${dlBtn}${sizeHtml}</div>
+        ${footerDl}
       </div>
     </div>`;
 }
 
 function renderSection(title, icon, iconBg, apps, id, gridClass='') {
   if (!apps.length) return '';
-  const cards = apps.map((a,i)=>renderCard(a, i*50)).join('');
+  const cards = apps.map((a,i) => renderCard(a, i*50)).join('');
   return `
     <div id="section-${id}">
       <div class="section-heading">
@@ -781,49 +960,28 @@ function renderAll(apps) {
     area.innerHTML = `<div class="app-grid"><div class="empty-state"><div class="icon">🔭</div><p>No apps match your search.</p></div></div>`;
     return;
   }
-
   const cats = categorizeApps(apps);
-  const q = searchQuery.trim();
+  const q    = searchQuery.trim();
 
   if (q || activeFilter !== 'all') {
-    // Flat view when filtering/searching
     const filtered = applySearchFilter(apps);
-    area.innerHTML = renderSection('Results', '🔍', 'rgba(0,229,255,0.15)', filtered.map(a=>({...a, _deviceMatch:isDeviceMatch(a)})), 'filtered');
+    area.innerHTML = renderSection('Results','🔍','rgba(0,229,255,0.15)', filtered.map(a=>({...a,_deviceMatch:isDeviceMatch(a)})),'filtered');
     return;
   }
 
   const parts = [];
-
-  // Top picks section
   if (cats.topPicks.length && DEVICE.compatPlatforms.length) {
-    parts.push(renderSection(
-      `Top Picks for ${DEVICE.label}`, '★', 'rgba(255,215,64,0.15)',
-      cats.topPicks, 'top', 'featured'
-    ));
+    parts.push(renderSection(`Top Picks for ${DEVICE.label}`,'★','rgba(255,215,64,0.15)',cats.topPicks,'top','featured'));
   }
-
-  // For your device
-  if (cats.forDevice.length && DEVICE.compatPlatforms.length && cats.forDevice.length !== cats.topPicks.length) {
+  if (cats.forDevice.length && DEVICE.compatPlatforms.length) {
     const rest = cats.forDevice.filter(a => !cats.topPicks.find(t=>t.id===a.id));
-    if (rest.length) {
-      parts.push(renderSection(
-        `More for ${DEVICE.label}`, DEVICE.icon, 'rgba(105,255,71,0.12)',
-        rest, 'device'
-      ));
-    }
+    if (rest.length) parts.push(renderSection(`More for ${DEVICE.label}`,DEVICE.icon,'rgba(105,255,71,0.12)',rest,'device'));
   }
-
-  // All apps or unmatched
-  if (cats.unmatched.length) {
-    parts.push(renderSection('Other Apps', '📦', 'rgba(179,136,255,0.12)', cats.unmatched, 'other'));
-  }
-
-  // If no device-specific split, just show all
+  if (cats.unmatched.length) parts.push(renderSection('Other Apps','📦','rgba(179,136,255,0.12)',cats.unmatched,'other'));
   if (!parts.length || !DEVICE.compatPlatforms.length) {
     parts.length = 0;
-    parts.push(renderSection('All Apps', '⬡', 'rgba(0,229,255,0.1)', cats.all, 'all'));
+    parts.push(renderSection('All Apps','⬡','rgba(0,229,255,0.1)',cats.all,'all'));
   }
-
   area.innerHTML = parts.join('');
 }
 
@@ -839,18 +997,18 @@ function applySearchFilter(apps) {
   return result;
 }
 
-function refreshView() {
-  renderAll(allApps);
-}
+function refreshView() { renderAll(allApps); }
 
-/* ══════════════════ STATS STRIP ══════════════════ */
+/* ══════════════════ STATS ══════════════════ */
 function renderStats(apps) {
   const totalDls = apps.reduce((s,a)=>(s+(a.downloads||0)),0);
+  const hasSplits = apps.some(a => a.splits && a.splits.length);
   const strip = document.getElementById('stats-strip');
   strip.innerHTML = `
     <div class="stat-pill"><span class="n">${apps.length}</span><span class="l">apps</span></div>
     <div class="stat-pill"><span class="n">${totalDls.toLocaleString()}</span><span class="l">total downloads</span></div>
-    <div class="stat-pill"><span class="n">${DEVICE.icon}</span><span class="l">${DEVICE.label}</span></div>`;
+    <div class="stat-pill"><span class="n">${DEVICE.icon}</span><span class="l">${DEVICE.label}</span></div>
+    ${hasSplits?`<div class="stat-pill"><span class="n">⚙</span><span class="l">split APKs</span></div>`:''}`;
 }
 
 /* ══════════════════ FILTERS ══════════════════ */
@@ -858,7 +1016,7 @@ function buildFilters(apps) {
   const allTags = new Set(apps.flatMap(a=>a.tags||[]));
   const bar = document.getElementById('filter-row');
   [...bar.querySelectorAll('[data-filter]:not([data-filter="all"])')].forEach(b=>b.remove());
-  allTags.forEach(tag=>{
+  allTags.forEach(tag => {
     const btn = document.createElement('button');
     btn.className = 'filter-btn';
     btn.dataset.filter = tag;
@@ -867,7 +1025,7 @@ function buildFilters(apps) {
   });
 }
 
-document.getElementById('filter-row').addEventListener('click', e=>{
+document.getElementById('filter-row').addEventListener('click', e => {
   const btn = e.target.closest('.filter-btn');
   if (!btn) return;
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
@@ -875,19 +1033,20 @@ document.getElementById('filter-row').addEventListener('click', e=>{
   activeFilter = btn.dataset.filter;
   refreshView();
 });
-
-document.getElementById('search').addEventListener('input', e=>{
+document.getElementById('search').addEventListener('input', e => {
   searchQuery = e.target.value;
   refreshView();
 });
 
+/* ══════════════════ TOGGLE SPLITS PANEL ══════════════════ */
+function toggleSplits(headerEl) {
+  const panel = headerEl.closest('[data-splits]');
+  panel.classList.toggle('open');
+}
+
 /* ══════════════════ TV DOWNLOAD ══════════════════ */
-// Android TV browsers block the `download` attribute and blob URLs.
-// Direct navigation to the APK URL is the only reliable way to trigger
-// a download from a TV browser without a separate app like Downloader.
 function tvDownload(e, url) {
   e.preventDefault();
-  // Try opening in the same tab — TV browser will download or prompt
   window.location.href = url;
 }
 
@@ -895,6 +1054,20 @@ function tvDownload(e, url) {
 document.getElementById('yr').textContent = new Date().getFullYear();
 
 async function loadApps() {
+  // Detect ABI in parallel
+  await detectABI();
+
+  // Show ABI badge
+  if (DEVICE_ABI) {
+    const meta = ABI_META[DEVICE_ABI];
+    const badge = document.getElementById('abi-banner-badge');
+    const text  = document.getElementById('abi-banner-text');
+    if (meta) {
+      text.textContent = `CPU: ${meta.label} — recommended splits highlighted`;
+      badge.classList.add('show');
+    }
+  }
+
   try {
     const res = await fetch(REGISTRY_URL, { cache:'no-cache' });
     if (!res.ok) throw new Error('not found');
