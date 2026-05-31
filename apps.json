@@ -120,5 +120,73 @@
     "stars": 0,
     "updated": "2026-04-20",
     "commit": "f86024f"
+  },
+  {
+    "id": "cipherlink",
+    "name": "CipherLink",
+    "version": "1.0.0",
+    "description": "**CipherLink** is a secure and privacy-focused messaging platform designed to provide fast, reliable, and encrypted communication. Built with modern technologies, CipherLink emphasizes user security through end-to-end encryption, ensuring that messages remain accessible only to intended recipients. The platform supports real-time messaging, media sharing, and seamless synchronization while maintaining a clean and intuitive user experience. CipherLink aims to combine strong security practices with ease of use, creating a communication solution that protects user privacy without compromising performance.",
+    "platforms": [
+      "android"
+    ],
+    "tags": [
+      "messaging",
+      "chat",
+      "secure-messaging",
+      "encrypted-chat",
+      "end-to-end-encryption",
+      "privacy",
+      "cybersecurity",
+      "communication",
+      "real-time-chat",
+      "instant-messaging",
+      "secure-communication",
+      "private-messaging",
+      "group-chat",
+      "media-sharing",
+      "file-sharing",
+      "cross-platform",
+      "mobile-app",
+      "android",
+      "kotlin",
+      "jetpack-compose",
+      "backend",
+      "postgresql",
+      "redis",
+      "websocket",
+      "authentication",
+      "data-protection",
+      "zero-knowledge",
+      "privacy-first",
+      "cloud-native",
+      "social-networking"
+    ],
+    "splits": [
+      {
+        "abi": "arm64-v8a",
+        "url": "https://github.com/abhinav0014/CipherLink/releases/download/v1.0.0/app-arm64-v8a-releaseDebug.apk",
+        "size": "200MB"
+      },
+      {
+        "abi": "armeabi-v7a",
+        "url": "https://github.com/abhinav0014/CipherLink/releases/download/v1.0.0/app-armeabi-v7a-releaseDebug.apk",
+        "size": "200MB"
+      },
+      {
+        "abi": "X86",
+        "url": "https://github.com/abhinav0014/CipherLink/releases/download/v1.0.0/app-x86-releaseDebug.apk",
+        "size": "200MB"
+      },
+      {
+        "abi": "x86_64",
+        "url": "https://github.com/abhinav0014/CipherLink/releases/download/v1.0.0/app-x86_64-releaseDebug.apk",
+        "size": "200MB"
+      }
+    ],
+    "apkSize": "~200MB",
+    "downloads": 0,
+    "updated": "2026-05-31",
+    "iconUrl": "icons/cipherlink.png",
+    "iconBg": "linear-gradient(135deg,#1e3a5f,#0f2040)"
   }
 ]
