@@ -164,22 +164,22 @@
     "splits": [
       {
         "abi": "arm64-v8a",
-        "url": "https://github.com/abhinav0014/Cipherlink-App/releases/download/x1.0/app-arm64-v8a-releaseDebug.apk",
+        "url": "",
         "size": "200MB"
       },
       {
         "abi": "armeabi-v7a",
-        "url": "https://github.com/abhinav0014/Cipherlink-App/releases/download/x1.0/app-armeabi-v7a-releaseDebug.apk",
-        "size": "200MB"
+        "url": "https://github.com/abhinav0014/Cipherlink-App/releases/download/x1.1.05/app-armeabi-v7a-releaseDebug.apk",
+        "size": "191.06MB"
       },
       {
         "abi": "X86",
-        "url": "https://github.com/abhinav0014/Cipherlink-App/releases/download/x1.0/app-x86-releaseDebug.apk",
+        "url": "",
         "size": "200MB"
       },
       {
         "abi": "x86_64",
-        "url": "https://github.com/abhinav0014/Cipherlink-App/releases/download/x1.0/app-x86_64-releaseDebug.apk",
+        "url": "",
         "size": "200MB"
       }
     ],
